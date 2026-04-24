@@ -31,7 +31,7 @@ public class RentCarDataService {
     // 차량 스펙 정의
     private record CarSpec(String name, String type, int seats, String fuel, int priceMin, int priceMax) {}
 
-    private static final List<CarSpec> CAR_SPECS = List.of(
+    private static final List<CarSpec> CAR_SPECS = List.of( //차종의 더미데이터
             new CarSpec("모닝",          "경형", 4, "가솔린",    20000, 30000),
             new CarSpec("스파크",         "경형", 4, "가솔린",    20000, 28000),
             new CarSpec("레이",           "경형", 4, "가솔린",    22000, 32000),
@@ -66,7 +66,7 @@ public class RentCarDataService {
     private static final int NUM_OF_ROWS = 1000;
 
 //    @PostConstruct
-    public void init() {
+    public void init() {    //키값을 만약 넣고 실행 했다면 서버 시작시 데이터를 1000개의 읽어옴
         if (rentCarCompanyRepository.count() > 0) {
             log.info("렌트카 회사 데이터 이미 존재 - API 호출 스킵");
             // 회사는 있는데 차량이 없으면 차량만 생성
@@ -82,7 +82,7 @@ public class RentCarDataService {
 
     private static final Set<String> EXCEPTION_REGIONS = Set.of("충청북도", "충청남도", "전라북도", "전라남도", "경상북도", "경상남도");
 
-    private String normalizeRegion(String region) {
+    private String normalizeRegion(String region) { //주소를 충청북도 이런거는 충북 이렇게 줄이고 부산광역시는 부산으로 줄여서 저장
         if (region == null || region.length() < 2) return region;
         if (EXCEPTION_REGIONS.contains(region)) return "" + region.charAt(0) + region.charAt(2);
         return region.substring(0, 2);
@@ -203,7 +203,7 @@ public class RentCarDataService {
         List<Car> cars = new ArrayList<>();
 
         for (RentCarCompany company : companies) {
-            int carCount = 1 + random.nextInt(5); // 5~15대
+            int carCount = 1 + random.nextInt(5); // 1~5대
 
             List<CarSpec> shuffled = new ArrayList<>(CAR_SPECS);
             Collections.shuffle(shuffled, random);
